@@ -9,18 +9,40 @@ Created on Mon Apr  4 06:19:37 2022
 import cv2
 import numpy as np
 
+def getImageArray(image):
+    # Converting image to numpy array
+    image_array = np.asarray(image)
+    return image_array
+
+def downscaleImage(image):
+    # Downscaling by taking every 4th pixel in both directions
+    # Numpy handles all the edge cases under the hood
+    try:
+        downscaled_img = image[::4,::4]
+        return downscaled_img
+    except IndexError:
+        print("The image should be two dimensional.")
+        return None
+        
+def printResolution(image):
+    if image_array is not None:    
+        print("Resolution: ", image.shape)
+    else:
+        print("Invalid image array!")
+
+# Driver
 file_path  = "/Users/hamzakhalid/Desktop/junebrain/simple-image-downscaling/"
 file_name = "uneven.jpg"
 image_path = file_path + file_name
-
 # Reading an image in grayscale
 gray_scaled_img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
-# Converting image to numpy array
-downscaled_img = np.asarray(gray_scaled_img)
-print("Resolution before downscaling: ", downscaled_img.shape)
+image_array = getImageArray(gray_scaled_img)
+printResolution(image_array)
 
-# Downscaling by taking every 4th pixel in both directions
-# Numpy handles all the edge cases under the hood
-downscaled_img = downscaled_img[::4,::4]
-print("Resolution after downscaling: ", downscaled_img.shape)
+downscaled_img_1 = downscaleImage(image_array)
+printResolution(downscaled_img_1)
+
+# Let's downscale one more time
+downscaled_img_2 = downscaleImage(downscaled_img_1)
+printResolution(downscaled_img_2)
