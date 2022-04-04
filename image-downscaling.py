@@ -15,6 +15,11 @@ def getImageArray(image):
     return image_array
 
 def downscaleImage(image):
+    # Validating image size
+    if(image.shape[0]<=4 or image.shape[1]<=4):
+        print("Image too small for downscaling!")
+        return None
+    
     # Downscaling by taking every 4th pixel in both directions
     # Numpy handles all the edge cases under the hood
     try:
@@ -25,10 +30,10 @@ def downscaleImage(image):
         return None
         
 def printResolution(image):
-    if image_array is not None:    
+    if image is not None:    
         print("Resolution: ", image.shape)
     else:
-        print("Invalid image array!")
+        print("Can not print resolution of invalid image array!")
 
 # Driver
 file_path  = "/Users/hamzakhalid/Desktop/junebrain/simple-image-downscaling/"
@@ -46,3 +51,9 @@ printResolution(downscaled_img_1)
 # Let's downscale one more time
 downscaled_img_2 = downscaleImage(downscaled_img_1)
 printResolution(downscaled_img_2)
+
+# Let's try an invalid case
+downscaled_img_3 = downscaleImage(np.array([[1,2,4], [3,4,5]]))
+printResolution(downscaled_img_3)
+
+downscaleImage(np.array([]))
